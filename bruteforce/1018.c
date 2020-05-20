@@ -7,7 +7,7 @@ int chardiff(char a[][8], char b[][50] ,int row, int col) {
 
 	for (i = row; i < row+8; i++)
 		for (j = col; j < col+8; j++)
-			if (a[i][j] != b[i][j])
+			if (a[i-row][j-col] != b[i][j])
 				cnt++;
 
 	return cnt;
@@ -45,7 +45,6 @@ int main() {
 
 	min_case1 = chardiff(case1, value, 0, 0);
 	min_case2 = chardiff(case2, value, 0, 0);
-	//printf("%d\n", min_case1);
 
 	for (i = 0; i <= N - 8; i++)
 		for (j = 0; j <= M - 8; j++)
@@ -54,12 +53,8 @@ int main() {
 
 	for (i = 0; i <= N - 8; i++)
 		for (j = 0; j <= M - 8; j++)
-			if (min_case2 > chardiff(case2, value, i, j)) {
+			if (min_case2 > chardiff(case2, value, i, j))
 				min_case2 = chardiff(case2, value, i, j);
-				printf("%d\n", min_case2);
-			}
-	printf("%d %d\n", min_case1, min_case2);
-	printf("%d\n", chardiff(case2, value, 0, 1));
 
 	if (min_case1 < min_case2) printf("%d", min_case1);
 	else printf("%d", min_case2);
