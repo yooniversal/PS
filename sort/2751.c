@@ -7,6 +7,7 @@ void merge(int* arr, int start, int mid, int end) {
 	int* sorted = malloc(sizeof(int) * 1000001);
 	int k;
 
+
 	while (i <= mid && j <= end) {
 		if (arr[i] <= arr[j]) {
 			sorted[index] = arr[i];
