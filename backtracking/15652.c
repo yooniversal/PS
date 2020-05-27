@@ -1,17 +1,17 @@
-//15649
+//15652
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-void func(int index, int* posit, int N, int M) {
+void func(int index, int* posit, int i, int N, int M) {
 	int j;
 
 	if (index != M) {
-		for (j = 1; j <= N; j++) {
+		for (j = i; j <= N; j++) {
 			posit[index] = j;
-			if (!isEqual(posit, index+1))
-				func(index + 1, posit, N, M);
+			if (1)
+				func(index + 1, posit, j, N, M);
 		}
 	}
 	else {
@@ -22,7 +22,7 @@ void func(int index, int* posit, int N, int M) {
 	}
 }
 
-// 같으면 1, 아니면 0
+//At least 1 equal value -> 1, different all value -> 0
 int isEqual(int* arr, int M) {
 	int i, j;
 
@@ -43,7 +43,7 @@ int main() {
 
 	for (i = 1; i <= N; i++) {
 		posit[0] = i;
-		func(1, posit, N, M);
+		func(1, posit, posit[0], N, M);
 	}
 
 	free(posit);

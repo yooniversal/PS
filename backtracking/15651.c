@@ -1,4 +1,4 @@
-//15649
+//15651
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +10,7 @@ void func(int index, int* posit, int N, int M) {
 	if (index != M) {
 		for (j = 1; j <= N; j++) {
 			posit[index] = j;
-			if (!isEqual(posit, index+1))
+			if (1)
 				func(index + 1, posit, N, M);
 		}
 	}
@@ -22,7 +22,7 @@ void func(int index, int* posit, int N, int M) {
 	}
 }
 
-// 같으면 1, 아니면 0
+//At least 1 equal value -> 1, different all value -> 0
 int isEqual(int* arr, int M) {
 	int i, j;
 
