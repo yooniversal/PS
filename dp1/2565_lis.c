@@ -9,15 +9,6 @@
 int dp[501] = { 0, };
 int a[501] = { 0, };
 int maxind = 0;
-int route[501];
-
-void swap(int* a, int* b) {
-	int temp;
-
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
 
 void merge(int* arr, int start, int mid, int end) {
 	int i = start, j = mid + 1, index = start;
@@ -119,16 +110,13 @@ int dpfunc(int* arr, int n) {
 		else {
 			dp[searchindex(arr[n]) + 1] = searchindex(arr[n]) + 1;
 			a[searchindex(arr[n]) + 1] = arr[n];
-			
-			//update new long route (1st -> end index(leng(route)+1))
-			for (i = 1; i <= n; i++)
-				route[i] = a[i];
-			route[leng(route)+1] = arr[n];
-			
 		}
 	}
 }
 
+//When I use dynamic allocation in valueblank and temparr, I got a problem related with memory error.
+//Generally, It can be sovled just modifying memory size but I didn't find any wrong things.
+//So I could not use dynamic allocation in this project.
 int main() {
 	int n, i, j, temp1, temp2, cnt, min, max, ans=0;
 
@@ -152,69 +140,20 @@ int main() {
 	
 	mergesort(valueblank, 1, n);
 	
-	
-	//sort index(diff 1) in temparr
+	//sort indexes(diff of each index = 1)
 	cnt = 1;
 	for (i = 1; i <= maxind; i++)
 		if (arr[i] != 0) {
 			temparr[cnt] = arr[i];
 			cnt++;
 		}
-	
-	/*
-	//sort value(diff 1) in temparr
-	for (i = 1; i <= n; i++) {
-		for (j = 1; j <= n; j++)
-			if (temparr[i] == valueblank[j])
-				temparr[i] = j;
-	}
-	*/
 
 	dp[0] = 0;
 	a[0] = 0;
-	route[0] = 0;
 	
-	//arr -> temparr
+	//get value in dp array
 	for (i = 1; i <= n; i++)
 		dpfunc(temparr, i);
-	
-	/*
-	for (i = 1; i <= n; i++)
-		printf("temparr[%d] = %d\n", i, temparr[i]);
-	
-	for (i = 1; i <= maxindex(dp); i++)
-		printf("route[%d] = %d\n", i, route[i]);
-
-	printf("maxindex(dp) : %d\n", maxindex(dp));
-	
-	min = route[1];
-	max = route[maxindex(dp)];
-
-	for (i = 1; i <= n; i++)
-		if (temparr[i] == min) {
-			min = i;
-			break;
-		}
-
-	for(i=1; i<=n; i++)
-		if (temparr[i] == max) {
-			max = i;
-			break;
-		}
-
-	for (i = min; i <= max; i++) {
-		for (j = 1; j <= maxindex(dp); j++) {
-			if (temparr[i] == route[j]) break;
-			if (j == maxindex(dp)) ans++;
-		}
-	}
-	
-	
-	printf("ans = %d", ans);
-	*/
-
-	//free(temparr);
-	//free(valueblank);
 
 	printf("%d", n - maxindex(dp));
 
