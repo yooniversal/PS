@@ -18,7 +18,6 @@ typedef long long ll;
 
 string T, P;
 int saveT[MAXSIZE];
-int prime[MAXSIZE];
 
 int main() {
 
@@ -44,13 +43,7 @@ int main() {
 				saveT[i] = ++idxT;
 		}
 
-		int P_len = 0;
-		for (int i = T.size() - 1; i >= 0; i--) {
-			if (saveT[i] == 1) {
-				P_len = i;
-				break;
-			}
-		}
+		int P_len = T.size() - saveT[T.size() - 1];
 
 		//answer
 		if (T.size() % P_len == 0) cout << T.size() / P_len << '\n';
