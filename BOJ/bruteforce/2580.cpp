@@ -1,71 +1,65 @@
 //2580
-
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
+#define INF 1000000001
+#define MAX 5001
+#define MOD 1000000
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<vector<int>> vvi;
+typedef vector<pair<int, int>> vii;
+typedef pair<int, int> ii;
 
-int arr[9][9];
-bool row[9][9];
-bool col[9][9];
-bool squ[9][9];
+bool row[15][15], col[15][15], block[15][15];
+int board[15][15];
 
-void printa() {
-
-	for (int i = 0; i < 9; i++) {
-		for (int j = 0; j < 9; j++)
-			printf("%d ", arr[i][j]);
-		printf("\n");
-	}
-}
-
-void sudoku(int cnt) {
-
-    int x = cnt / 9;
-    int y = cnt % 9;
-
-    if (cnt == 81)
-    {
-        printa();
+void dfs(int x, int y) {
+    if (board[x][y] != 0) {
+        if (y != 8) dfs(x, y + 1);
+        else dfs(x + 1, 0);
+        return;
+    }
+    if (x == 9 && y == 0) {
+        for (int i = 0; i < 9; ++i) {
+            for (int j = 0; j < 9; ++j)
+                cout << board[i][j] << " ";
+            cout << '\n';
+        }
         exit(0);
     }
 
-    if (arr[x][y] == 0) {
-        for (int i = 1; i <= 9; i++) {
-            if (row[x][i] == false && col[y][i] == false && squ[(x / 3) * 3 + (y / 3)][i] == false) {
-                row[x][i] = true;
-                col[y][i] = true;
-                squ[(x / 3) * 3 + (y / 3)][i] = true;
-                arr[x][y] = i;
-                sudoku(cnt + 1);
-                arr[x][y] = 0;
-                row[x][i] = false;
-                col[y][i] = false;
-                squ[(x / 3) * 3 + (y / 3)][i] = false;
-            }
-        }
+    int bn = (x/3)*3 + y/3; //block number
+    for (int i = 1; i <= 9; ++i) {
+        if (row[x][i]) continue;
+        if (col[y][i]) continue;
+        if (block[bn][i]) continue;
+        row[x][i] = col[y][i] = block[bn][i] = true;
+        board[x][y] = i;
+        if (y != 8) dfs(x, y + 1);
+        else dfs(x + 1, 0);
+        board[x][y] = 0;
+        row[x][i] = col[y][i] = block[bn][i] = false;
     }
-    else
-        sudoku(cnt + 1);
 }
 
 int main() {
 
-	ios::sync_with_stdio(false);
-	cin.tie(NULL);
-	cout.tie(NULL);
+    cin.tie(nullptr);
+    cout.tie(NULL);
+    ios_base::sync_with_stdio(false);
 
-	//input
-	for (int i = 0; i < 9; i++)
-		for (int j = 0; j < 9; j++) {
-			cin >> arr[i][j];
-            if (arr[i][j] != 0) {
-                row[i][arr[i][j]] = true;
-                col[j][arr[i][j]] = true;
-                squ[(i / 3) * 3 + (j / 3)][arr[i][j]] = true;
+    for (int i = 0; i < 9; ++i)
+        for (int j = 0; j < 9; ++j) {
+            cin >> board[i][j];
+            if (board[i][j]) {
+                int bn = (i / 3) * 3 + j / 3; //block number;
+                row[i][board[i][j]] = true;
+                col[j][board[i][j]] = true;
+                block[bn][board[i][j]] = true;
             }
-		}
+        }
 
-	sudoku(0);
+    dfs(0, 0);
 
-	return 0;
-
+    return 0;
 }
