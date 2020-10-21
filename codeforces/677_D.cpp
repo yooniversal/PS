@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define INF 1000000001
+#define MAX 300005
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<vector<int>> vvi;
+typedef vector<pair<int, int>> vii;
+typedef pair<int, int> ii;
+
+int main() {
+
+	cin.tie(nullptr);
+	cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
+
+	int t; cin >> t;
+	while (t--) {
+		bool chk[5001] = { 0, };
+		vii ret;
+
+		int n; cin >> n;
+		vi a(n);
+		bool flag = false;
+		for (int i = 0; i < n; ++i) cin >> a[i];
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < n; ++j) {
+				if (chk[j]) continue;
+				if (a[i] == a[j]) continue;
+				chk[i] = chk[j] = true;
+				ret.push_back({ i+1, j+1 });
+				if (ret.size() == n - 1) {
+					flag = true;
+					cout << "YES\n";
+					for (auto r : ret) cout << r.first << ' ' << r.second << '\n';
+					i = j = n + 1;
+				}
+			}
+		}
+		if (!flag) cout << "NO\n";
+	}
+
+	return 0;
+}
