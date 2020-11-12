@@ -1,5 +1,4 @@
-//17954
-//non-complete
+//17947
 #include <bits/stdc++.h>
 using namespace std;
 #define INF 1000000001
@@ -34,31 +33,16 @@ int main() {
         if (chk[i]) continue;
         card.push_back(i % k);
     }
-    sort(card.begin(), card.end());
-    
-    for (int r : card) cout << r << ' ';
-    cout << '\n';
+    sort(card.rbegin(), card.rend());
 
-    int ret = 0, here=0;
-    auto it = lower_bound(card.begin() + 1, card.end(), card[0] + cur + 1);
-    here = it - card.begin();
-    memset(chk, false, sizeof(chk));
-    int len = card.size();
-    if (here < len) {
-        chk[0] = chk[here] = true;
+    int ret = 0, len = card.size();
+    for (int lo = 0, hi = 1; card[lo] >= cur, hi < len, ret < m-1;) {
+        while (hi < len && card[lo] - card[hi] <= cur) ++hi;
+        if (hi >= len) break;
         ++ret;
-        for (int lo = 1, hi = here + 1; hi < len;) {
-            while (chk[lo]) ++lo;
-            while (hi < len && (lo >= hi || chk[hi])) ++hi;
-            while (hi < len && card[hi] - card[lo] <= cur) ++hi;
-            printf("lo:%d hi:%d\n", lo, hi);
-            if (hi >= len) break;
-            chk[lo] = chk[hi] = true;
-            ++ret;
-            ++lo; ++hi;
-        }
+        ++lo; ++hi;
     }
-    cout << min(ret, m-1);
+    cout << ret;
 
     return 0;
 }
