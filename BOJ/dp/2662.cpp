@@ -1,60 +1,66 @@
 //2662
 #include <bits/stdc++.h>
 using namespace std;
-#define INF 1000000001
-#define MAX 501
-#define MOD 1000000
 typedef long long ll;
 typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
 typedef vector<pair<int, int>> vii;
 typedef pair<int, int> ii;
+const int MAX = 200005, INF = 1000000001, MOD = 9901;
 
 int n, m;
-int a[21][301];
-int cache[301][21];
-int query[301][21];
+int profit[21][301], cache[21][301], cost[21];
 
-int f(int M, int E) {
-    if (E == m) {
-        if (M == 0) return 0;
-        return -INF;
-    }
-    int& ret = cache[M][E];
-    if (ret != -1) return ret;
-    ret = 0;
-    for (int i = 0; i <= M; ++i) {
-        if (ret < f(M - i, E + 1) + a[E + 1][i]) {
-            query[M][E+1] = i;
-            ret = f(M - i, E + 1) + a[E + 1][i];
-        }
-    }
-    return ret;
+int f(int cur, int remain) {
+	if (cur == m) return 0;
+	int& ret = cache[cur][remain];
+	if (ret != -1) return ret;
+
+	ret = 0;
+	for (int i = 0; i <= remain; ++i) {
+		ret = max(ret, f(cur + 1, remain - i) + profit[cur][i]);
+	}
+
+	return ret;
+}
+
+void solve(int cur, int remain) {
+	if (cur == m - 1) {
+		cost[cur] = remain;
+		return;
+	}
+
+	for (int i = 0; i <= remain; ++i) {
+		if (f(cur+1, remain-i) + profit[cur][i] == f(cur, remain)) {
+			cost[cur] = i;
+			solve(cur + 1, remain - i);
+			return;
+		}
+	}
 }
 
 int main() {
 
-    cin.tie(nullptr);
-    cout.tie(NULL);
-    ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(NULL);
+	ios_base::sync_with_stdio(false);
 
-    memset(cache, -1, sizeof(cache));
+	memset(cache, -1, sizeof(cache));
 
-    cin >> n >> m;
-    for (int i = 1; i <= n; ++i) {
-        int money; cin >> money;
-        for (int who = 1; who <= m; ++who) {
-            int price; cin >> price;
-            a[who][money] = price;
-        }
-    }
+	cin >> n >> m;
+	for (int i = 0; i < n; ++i) {
+		int M; cin >> M;
+		for (int j = 0; j < m; ++j) {
+			cin >> profit[j][M];
+		}
+	}
 
-    cout << f(n, 0) << '\n';
-    int cur = n, team = 1;
-    for (int i = query[cur][team]; team<=m ; i=query[cur][++team]) {
-        cur -= i;
-        cout << i << ' ';
-    }
+	cout << f(0, n) << '\n';
+	solve(0, n);
+	for (int i = 0; i < m; ++i) {
+		cout << cost[i] << ' ';
+	}
+	cout << '\n';
 
-    return 0;
+	return 0;
 }
