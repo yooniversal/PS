@@ -9,12 +9,6 @@ typedef vector<vector<int>> vvi;
 typedef vector<pair<int, int>> vii;
 typedef pair<int, int> ii;
 
-//H번인가 풀다말았는데
-//DP말고 BFS로 풀 수 있을듯
-//거의 B번이랑 같은 수준인거 같은데 너무 아쉽다
-//BFS로 안풀리면..
-//공부할게 생겼으니 개꿀^^
-
 //TC 1
 /*
 input :
