@@ -1,26 +1,13 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <cstring>
-#include <map>
-#include <stack>
-#include <algorithm>
-#include <cmath>
-using namespace std;
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if (x < 0) return false;
+        
+        string s = to_string(x);
+        for (int i=0, j=s.size()-1; i<=j; i++, j--) {
+            if (s[i] != s[j]) return false;
+        }
 
-typedef long long ll;
-
-const int INF = 987654321;
-
-int main() {
-
-    cin.tie(nullptr);
-	cout.tie(NULL);
-	ios_base::sync_with_stdio(false);
-
-    ll n, m; cin >> n >> m;
-    cout << n / m << '\n';
-    cout << n % m << '\n';
-
-    return 0;
-}
+        return true;
+    }
+};
