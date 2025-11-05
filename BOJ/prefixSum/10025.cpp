@@ -25,6 +25,7 @@ int main() {
     }
 
 
+    prefixSum[0] = ice[0];
     for (int x=1; x<=maxX; x++)
         prefixSum[x] = prefixSum[x-1] + ice[x];
 
