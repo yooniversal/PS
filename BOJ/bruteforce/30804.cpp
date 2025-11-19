@@ -11,57 +11,34 @@ typedef vector<int> vi;
 typedef vector<vector<int>> vvi;
 typedef vector<ii> vii;
 
-bool chk[10];
-
-int isContinuous(vi& a, int x, int y) {
-    vi indices;
-    for (int i=0; i<a.size(); i++) {
-        if (a[i] == x || a[i] == y) indices.push_back(i);
-    }
-    int prev = indices[0];
-    for (int i=1; i<indices.size(); i++) {
-        if (indices[i] != prev+1) return -1;
-        prev = indices[i];
-    }
-
-    return indices.size();
-}
+int cnt[10];
 
 int main() {
     FASTIO;
 
-    int n; cin >> n;
-    int cnt = 0;
-    vi a(n);
-    for (int i=0; i<n; i++) {
-        cin >> a[i];
-        if (chk[a[i]]) continue;
-        chk[a[i]] = true;
-        cnt++;
-    }
+    int n;
+    cin >> n;
 
-    if (cnt <= 2) {
-        cout << n << '\n';
-        return 0;
-    }
+    vector<int> a(n);
+    for (int i=0; i<n; i++) cin >> a[i];
 
+    int kind = 0, left = 0;
     int ret = 0;
-    for (int x=1; x<=9; x++) {
-        if (!chk[x]) continue;
-        for (int y=x+1; y<=9; y++) {
-            if (!chk[y]) continue;
-            int len = isContinuous(a, x, y);
-            ret = max(ret, len);
+
+    for (int right=0; right<n; right++) {
+        if (cnt[a[right]] == 0) kind++;
+        cnt[a[right]]++;
+
+        while (kind > 2) {
+            cnt[a[left]]--;
+            if (cnt[a[left]] == 0) kind--;
+            left++;
         }
+
+        ret = max(ret, right - left + 1);
     }
 
-    for (int x=1; x<=9; x++) {
-        if (!chk[x]) continue;
-        int len = isContinuous(a, x, 0);
-        ret = max(ret, len);
-    }
-
-    cout << ret << '\n';
+    cout << ret << "\n";
 
     return 0;
 }
